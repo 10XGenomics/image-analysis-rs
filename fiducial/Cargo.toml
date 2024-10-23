@@ -1,0 +1,37 @@
+[package]
+name = "fiducial"
+version = "0.1.0"
+authors = ["Chaitanya Aluru <chaitanya.aluru@10xgenomics.com>"]
+edition = "2018"
+license = "LicRef-10XGenomics"
+license-file = "../LICENSE.txt"
+include = ["src/**/*.rs", "Cargo.toml"]
+publish = false
+
+[lib]
+name = "fiducial"
+
+[dependencies]
+image = { version = "0.25", default-features = false, features = ["tiff"] }
+itertools = ">=0.10.0"
+kd-tree = "0.6.0"
+ndarray = { version = "0.15.3", features = ["approx", "blas", "serde-1"] }
+ndarray-npy = { version = "*", default-features = false }
+ndarray-linalg = "0.16.0"
+assert_approx_eq = "1.1.0"
+ndarray-stats = "0.5.0"
+rand = "0.8.4"
+slog = "2.7.0"
+slog-term = "2"
+slog-async = "2.7.0"
+
+[dev-dependencies]
+clap = {version = "4.5.16", features = ["derive"]}
+
+[target.'cfg(target_os = "macos")'.dependencies]
+accelerate-src = "0.3.2"
+
+[target.'cfg(not(target_os = "macos"))'.dependencies]
+intel-mkl-src = { git = "https://github.com/10XGenomics/intel-mkl-src", branch = "master", features = [
+    "mkl-static-lp64-seq",
+] }

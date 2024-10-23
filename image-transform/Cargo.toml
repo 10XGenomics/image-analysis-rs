@@ -1,0 +1,23 @@
+[package]
+name = "image-transform"
+version = "0.1.0"
+authors = ["Guy Joseph <guy.joseph@10xgenomics.com>"]
+edition = "2018"
+license = "LicRef-10XGenomics"
+license-file = "../LICENSE.txt"
+include = ["src/**/*.rs", "Cargo.toml"]
+publish = false
+
+[dependencies]
+image = { version = "0.25", default-features = false, features = ["tiff"] }
+imageproc = "0.25.0"
+ndarray = { version = "0.15.3" }
+rand = "0.8.4"
+
+[target.'cfg(target_os = "macos")'.dependencies]
+accelerate-src = "0.3.2"
+
+[target.'cfg(not(target_os = "macos"))'.dependencies]
+intel-mkl-src = { git = "https://github.com/10XGenomics/intel-mkl-src", branch = "master", features = [
+    "mkl-static-lp64-seq",
+] }
