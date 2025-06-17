@@ -10,12 +10,12 @@ publish = false
 
 [dependencies]
 image = { version = "0.25", default-features = false, features = ["tiff"] }
-imageproc = "0.25.0"
-ndarray = { version = "0.15.3" }
-rand = "0.8.4"
+imageproc = "0.25"
+ndarray = ">=0.15,<0.17"
+rand = "0.8"
 
 [target.'cfg(target_os = "macos")'.dependencies]
-accelerate-src = "0.3.2"
+accelerate-src = "0.3"
 
 [target.'cfg(not(target_os = "macos"))'.dependencies]
 intel-mkl-src = { git = "https://github.com/10XGenomics/intel-mkl-src", branch = "master", features = [

@@ -400,7 +400,7 @@ pub fn fiducial_refinement(
     };
 
     //if less than 20 fiducials, default to original manual alignment
-    if iso_detections.points.len() < 20 {
+    if iso_detections.points.len() < 15 {
         return None;
     };
     if let Some(reg) = fiducial_registration(&mut iso_detections, design) {
@@ -413,9 +413,9 @@ pub fn fiducial_refinement_and_perspective_transform_isolation(
     image_path: &str,
     manual_alignment: &Array2<f64>,
     design: &mut FiducialFrame,
-) -> Option<(Array2<f64>, Array2<f64>)> {
+) -> (Array2<f64>, Array2<f64>, bool) {
     /* Convenience function to combine fiducial refinement and perspective transform isolation.
-       Outputs (perspective transform, isolated tilt transform)
+       Outputs (perspective transform, isolated tilt transform, refinement_success)
 
        Args:
           image_path: Path to the cytassist image
@@ -427,10 +427,10 @@ pub fn fiducial_refinement_and_perspective_transform_isolation(
     if let Some((hmat, mut detect)) = refinement {
         let p = isolate_perspective_transform(&mut detect, design);
         if let Some(perspective_transform) = p {
-            return Some((hmat, perspective_transform));
+            return (hmat, perspective_transform, true);
         };
     }
-    None
+    (manual_alignment.to_owned(), Array2::eye(3), false)
 }
 
 #[cfg(test)]
